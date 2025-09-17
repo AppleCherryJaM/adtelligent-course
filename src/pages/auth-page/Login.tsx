@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { type LoginFormData, loginSchema } from "../../lib/zodSchema";
 import { useAuthStore } from "../../store/authStore";
 
+import { TextField, Button, Box, Paper, Typography } from "@mui/material";
+
 const LoginForm = () => {
 	const login = useAuthStore((state) => state.login);
 	const navigate = useNavigate();
@@ -21,43 +23,61 @@ const LoginForm = () => {
 		login(mockUser, mockToken);
 		navigate("/");
 	};
+return (
+    <Box
+  display="flex"
+  justifyContent="center"
+  alignItems="center"
+  sx={{ backgroundColor: "grey.100" }}
+>
+  <Paper
+    elevation={6}
+    sx={{
+      p: 4,
+      width: "100%",
+      maxWidth: 400,
+      borderRadius: 3,
+      boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+    }}
+  >
+    <Typography variant="h5" textAlign="center" mb={3}>
+      Login
+    </Typography>
 
-	return (
-		<form
-			onSubmit={handleSubmit(onSubmit)}
-			className="flex flex-col gap-4 w-full max-w-sm bg-white p-6 rounded shadow"
-		>
-			<div className="flex flex-col gap-1">
-				<label className="text-gray-900 font-medium">Email</label>
-				<input
-					{...register("email")}
-					type="email"
-					className="border border-gray-300 rounded px-3 py-2 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-				{errors.email && (
-					<p className="text-red-500 text-sm">{errors.email.message}</p>
-				)}
-			</div>
+    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <TextField
+        label="Email"
+        type="email"
+        fullWidth
+        margin="normal"
+        {...register("email")}
+        error={!!errors.email}
+        helperText={errors.email?.message}
+      />
 
-			<div className="flex flex-col gap-1">
-				<label className="text-gray-900 font-medium">Password</label>
-				<input
-					{...register("password")}
-					type="password"
-					className="border border-gray-300 rounded px-3 py-2 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-				{errors.password && (
-					<p className="text-red-500 text-sm">{errors.password.message}</p>
-				)}
-			</div>
+      <TextField
+        label="Password"
+        type="password"
+        fullWidth
+        margin="normal"
+        {...register("password")}
+        error={!!errors.password}
+        helperText={errors.password?.message}
+      />
 
-			<button
-				type="submit"
-				className="bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700"
-			>
-				Login
-			</button>
-		</form>
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        size="large"
+        sx={{ mt: 3 }}
+      >
+        Login
+      </Button>
+    </form>
+  </Paper>
+</Box>
+
 	);
 };
 
