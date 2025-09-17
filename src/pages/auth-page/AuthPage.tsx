@@ -8,10 +8,10 @@ const AuthPage = ()  => {
 	const handleSwitchForm = () => {
 		setIsLogin(!isLogin)
 	}
-	return <>
+	return <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 gap-4">
         {isLogin ? <LoginForm /> : <RegisterForm/>}
-		<button onClick={handleSwitchForm}>{isLogin ? "Doesn't have an account? Register": "Have an account? Login"}</button>
-	</>
+		<button onClick={handleSwitchForm} className='"text-blue-600 hover:underline"'>{isLogin ? "Doesn't have an account? Register": "Have an account? Login"}</button>
+	</div>
 	
 }
 
