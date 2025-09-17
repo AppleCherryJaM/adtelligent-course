@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { type RegisterFormData, registerSchema } from "../../lib/zodSchema";
@@ -23,55 +24,69 @@ const RegisterForm = () => {
 	};
 
 	return (
-		<form
-			onSubmit={handleSubmit(onSubmit)}
-			className="flex flex-col gap-4 w-full max-w-sm bg-white p-6 rounded shadow"
+		<Box
+			display="flex"
+			justifyContent="center"
+			alignItems="center"
+			sx={{ backgroundColor: "grey.100" }}
 		>
-			<div className="flex flex-col gap-1">
-				<label className="text-gray-900 font-medium">Email</label>
-				<input
-					{...register("email")}
-					type="email"
-					className="border border-gray-300 rounded px-3 py-2 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-				{errors.email && (
-					<p className="text-red-500 text-sm">{errors.email.message}</p>
-				)}
-			</div>
-
-			<div className="flex flex-col gap-1">
-				<label className="text-gray-900 font-medium">Password</label>
-				<input
-					{...register("password")}
-					type="password"
-					className="border border-gray-300 rounded px-3 py-2 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-				{errors.password && (
-					<p className="text-red-500 text-sm">{errors.password.message}</p>
-				)}
-			</div>
-
-			<div className="flex flex-col gap-1">
-				<label className="text-gray-900 font-medium">Confirm password</label>
-				<input
-					{...register("confirmPassword")}
-					type="password"
-					className="border border-gray-300 rounded px-3 py-2 bg-gray-50 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-300"
-				/>
-				{errors.confirmPassword && (
-					<p className="text-red-500 text-sm">
-						{errors.confirmPassword.message}
-					</p>
-				)}
-			</div>
-
-			<button
-				type="submit"
-				className="bg-green-600 text-white rounded px-4 py-2 hover:bg-green-700"
+			<Paper
+				elevation={6}
+				sx={{
+					p: 4,
+					width: "100%",
+					maxWidth: 400,
+					borderRadius: 3,
+					boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+				}}
 			>
-				Register
-			</button>
-		</form>
+				<Typography variant="h5" textAlign="center" mb={3}>
+					Register
+				</Typography>
+
+				<form onSubmit={handleSubmit(onSubmit)} noValidate>
+					<TextField
+						label="Email"
+						type="email"
+						fullWidth
+						margin="normal"
+						{...register("email")}
+						error={!!errors.email}
+						helperText={errors.email?.message}
+					/>
+
+					<TextField
+						label="Password"
+						type="password"
+						fullWidth
+						margin="normal"
+						{...register("password")}
+						error={!!errors.password}
+						helperText={errors.password?.message}
+					/>
+
+					<TextField
+						label="Confirm password"
+						type="password"
+						fullWidth
+						margin="normal"
+						{...register("confirmPassword")}
+						error={!!errors.confirmPassword}
+						helperText={errors.confirmPassword?.message}
+					/>
+
+					<Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						size="large"
+						sx={{ mt: 3 }}
+					>
+						Register
+					</Button>
+				</form>
+			</Paper>
+		</Box>
 	);
 };
 
