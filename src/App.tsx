@@ -1,15 +1,14 @@
 import { RouterProvider } from "react-router-dom";
-import { router } from "./router/router";
 import { QueryProvider } from "./providers/QueryProvider";
-import './App.css'
+import { router } from "./router/router";
+import "./App.css";
 
 function App() {
-  return (
-    <QueryProvider>
-      <RouterProvider router={router} />
-    </QueryProvider>
-  );
+	return (
+		<QueryProvider>
+			<RouterProvider router={router} />
+		</QueryProvider>
+	);
 }
 
 export default App;
-

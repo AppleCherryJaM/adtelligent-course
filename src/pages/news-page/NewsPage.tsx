@@ -1,13 +1,11 @@
-import React from 'react'
+import React from "react";
 
 interface NewPage {
 	email: string;
 }
 
 function NewsPage() {
-	return (
-		<div>NewsPage</div>
-	)
+	return <div>NewsPage</div>;
 }
 
-export default NewsPage
+export default NewsPage;
