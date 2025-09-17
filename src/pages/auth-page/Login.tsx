@@ -1,14 +1,21 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginFormData } from "../../lib/zodSchema";
+import { useAuthStore } from "../../store/authStore";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+    const login = useAuthStore((state) => state.login)
+    const navigate = useNavigate()
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
   });
 
   const onSubmit = (data: LoginFormData) => {
-    console.log(data)
+    const mockUser = {id: '1', email: data.email}
+    const mockToken = data.email + '123'
+    login(mockUser, mockToken)
+    navigate('/')
   };
 
   return (
