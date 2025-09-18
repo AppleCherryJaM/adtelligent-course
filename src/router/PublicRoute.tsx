@@ -10,7 +10,7 @@ export const PublicRoute = ({ children }: PublicRouteProps) => {
 	const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
 	if (isAuthenticated) {
-		return <Navigate to="/feed" replace />;
+		return <Navigate to="/news" replace />;
 	}
 
 	return <>{children}</>;

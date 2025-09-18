@@ -1,7 +1,6 @@
 import Box from "@mui/material/Box";
-
-import type { NewsType } from "../types";
 import { useNavigate } from "react-router-dom";
+import type { NewsType } from "../types";
 import NewsItem from "./NewsItem";
 
 interface NewsListProps {
@@ -9,7 +8,7 @@ interface NewsListProps {
 }
 
 const NewsList = ({ newsList }: NewsListProps) => {
-  const navigate = useNavigate()
+	const navigate = useNavigate();
 	return (
 		<Box
 			component="div"
