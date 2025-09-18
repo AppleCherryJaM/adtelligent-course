@@ -1,3 +1,3 @@
-import {type NewsType} from "./NewsType";
+import type { NewsType } from "./NewsType";
 
-export { type NewsType }
+export type { NewsType };

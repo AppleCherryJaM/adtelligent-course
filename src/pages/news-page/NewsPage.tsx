@@ -1,11 +1,7 @@
 import React from "react";
 
-interface NewPage {
-	email: string;
-}
-
-function NewsPage() {
+const NewsPage = () => {
 	return <div>NewsPage</div>;
-}
+};
 
 export default NewsPage;

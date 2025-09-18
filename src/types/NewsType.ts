@@ -1,6 +1,7 @@
 export interface NewsType {
 	id: string;
-	title: string | null;
+	title: string;
 	image: string | null;
 	mainText: string | null;
+	date: string | null;
 }
