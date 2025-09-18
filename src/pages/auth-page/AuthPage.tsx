@@ -1,3 +1,4 @@
+import { Box, Button, Paper, Stack } from "@mui/material";
 import { useState } from "react";
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
@@ -8,17 +9,35 @@ const AuthPage = () => {
 		setIsLogin(!isLogin);
 	};
 	return (
-		<div className="flex flex-col justify-center items-center gap-4">
-			{isLogin ? <LoginForm /> : <RegisterForm />}
-			<button
-				onClick={handleSwitchForm}
-				className='"text-blue-600 hover:underline"'
+		<Box
+			sx={{
+				minHeight: "100vh",
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+				bgcolor: "background.default",
+				p: 2,
+			}}
+		>
+			<Paper
+				elevation={3}
+				sx={{
+					p: 4,
+					borderRadius: 3,
+					width: "100%",
+					maxWidth: 400,
+				}}
 			>
-				{isLogin
-					? "Doesn't have an account? Register"
-					: "Have an account? Login"}
-			</button>
-		</div>
+				<Stack spacing={3} alignItems="center">
+					{isLogin ? <LoginForm /> : <RegisterForm />}
+					<Button variant="text" onClick={handleSwitchForm}>
+						{isLogin
+							? "Doesn't have an account? Register"
+							: "Have an account? Login"}
+					</Button>
+				</Stack>
+			</Paper>
+		</Box>
 	);
 };
 
