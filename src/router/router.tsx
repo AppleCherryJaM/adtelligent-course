@@ -15,9 +15,9 @@ export const router = createBrowserRouter([
 	{
 		path: "/",
 		element: (
-			<ProtectedRoute>
+			// <ProtectedRoute>
 				<MainPage />
-			</ProtectedRoute>
+			// </ProtectedRoute>
 		),
 	},
 	{
