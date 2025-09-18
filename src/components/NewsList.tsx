@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 
 import type { NewsType } from "../types";
+import { useNavigate } from "react-router-dom";
 import NewsItem from "./NewsItem";
 
 interface NewsListProps {
@@ -8,6 +9,7 @@ interface NewsListProps {
 }
 
 const NewsList = ({ newsList }: NewsListProps) => {
+  const navigate = useNavigate()
 	return (
 		<Box
 			component="div"
@@ -28,7 +30,7 @@ const NewsList = ({ newsList }: NewsListProps) => {
 						text={news.mainText}
 						image={news.image}
 						date={news.date}
-						onClick={() => console.log("Open full news:", news.id)}
+						onClick={() => navigate(`/news/${news.id}`)}
 					/>
 				</Box>
 			))}
