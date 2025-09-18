@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "biome check --write ./src",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -27,7 +27,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.4",
+    "@biomejs/biome": "^1.9.4",
     "@eslint/js": "^9.33.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
@@ -40,6 +40,7 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.39.1",
     "vite": "^7.1.2",
+    "vite-plugin-biome": "^1.0.12",
     "vite-plugin-checker": "^0.10.3",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-inspect": "^11.3.3",

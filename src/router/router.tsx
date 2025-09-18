@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import Layout from "../components/Layout";
 import { AuthPage, MainPage, NewsPage } from "../pages";
 import { ProtectedRoute } from "./ProtectedRoute";

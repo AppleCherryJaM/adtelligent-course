@@ -18,7 +18,7 @@ const LoginForm = () => {
 
 	const onSubmit = (data: LoginFormData) => {
 		const mockUser = { id: "1", email: data.email };
-		const mockToken = data.email + "123";
+		const mockToken = `${data.email}123`;
 		login(mockUser, mockToken);
 		navigate("/");
 	};
