@@ -1,6 +1,7 @@
 const data = {
 	news: [
 		{
+			id: 0,
 			title: "В городе открылся новый парк",
 			image:
 				"https://kharkov.comments.ua/img/publications/wMVPvKNYvcFLtIL3PNU_OSknuOtko-mN.jpg",
@@ -9,6 +10,7 @@ const data = {
 			date: "01.09.2025",
 		},
 		{
+			id: 1,
 			title: "Ученые представили новый метеорологический отчет",
 			image:
 				"https://img.freepik.com/free-vector/weather-forecast-infographics-design-elements-climate-temperature-report-vector-illustration_1284-2150.jpg",
@@ -17,6 +19,7 @@ const data = {
 			date: "02.09.2025",
 		},
 		{
+			id: 2,
 			title: "Библиотека пополнилась новыми изданиями",
 			image:
 				"https://pohcdn.com/sites/default/files/styles/paragraph__hero_banner__hb_image__1880bp/public/hero_banner/the-Newberry.jpg",
@@ -25,6 +28,7 @@ const data = {
 			date: "02.09.2025",
 		},
 		{
+			id: 3,
 			title: "Завершился ремонт автомобильной дороги",
 			image: "https://upload.wikimedia.org/wikipedia/commons/7/76/A2ost.jpg",
 			mainText:
@@ -32,6 +36,7 @@ const data = {
 			date: "02.09.2025",
 		},
 		{
+			id: 4,
 			title: "Состоялась конференция по образовательным технологиям",
 			image: "https://puscha-hotel.com.ua/img/event/15.jpg",
 			mainText:
