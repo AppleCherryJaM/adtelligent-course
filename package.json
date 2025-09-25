@@ -1,5 +1,6 @@
 {
   "name": "adtelligent-course",
+  "proxy": "http://localhost:3000",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -52,6 +53,8 @@
     "vite-tsconfig-paths": "^5.1.4"
   },
   "lint-staged": {
-    "src/**/*.{ts,.tsx}": ["lint", "check"]
+    "src/**/*.{ts,tsx}": [
+      "biome check --apply"
+    ]
   }
 }

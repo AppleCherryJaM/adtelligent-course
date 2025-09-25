@@ -23,27 +23,57 @@ function NewsItem({ title, image, text, date, onClick }: NewsItemProps) {
 				boxShadow: 3,
 				height: "100%",
 				display: "flex",
+				flexDirection: "column",
+				transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
+				"&:hover": {
+					transform: "translateY(-4px)",
+					boxShadow: 6,
+				},
 			}}
 		>
-			<CardActionArea onClick={onClick}>
+			<CardActionArea
+				onClick={onClick}
+				sx={{
+					flex: 1,
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "stretch",
+				}}
+			>
 				<CardMedia
 					component="img"
-					height="100"
-					image={image}
+					height="140"
+					image={image || "/default-news-image.jpg"}
 					alt={title}
 					sx={{
-						height: 200,
+						height: 140,
 						objectFit: "cover",
 					}}
+					onError={(e) => {
+						e.currentTarget.src = "/default-news-image.jpg";
+					}}
 				/>
-				<CardContent>
-					<Typography gutterBottom variant="h6" component="div">
+				<CardContent sx={{ flex: 1 }}>
+					<Typography gutterBottom variant="h6" component="div" noWrap>
 						{title}
 					</Typography>
-					<Typography variant="body2" color="text.secondary" noWrap>
+					<Typography
+						variant="body2"
+						color="text.secondary"
+						sx={{
+							display: "-webkit-box",
+							WebkitLineClamp: 3,
+							WebkitBoxOrient: "vertical",
+							overflow: "hidden",
+						}}
+					>
 						{text}
 					</Typography>
-					<Typography variant="caption" color="text.secondary">
+					<Typography
+						variant="caption"
+						color="text.secondary"
+						sx={{ mt: 1, display: "block" }}
+					>
 						{date}
 					</Typography>
 				</CardContent>

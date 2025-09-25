@@ -33,6 +33,20 @@ export default defineConfig({
     }),
     Inspect(),
   ],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000', // ваш бэкенд URL
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  },
+  resolve: {
+    alias: {
+      '@': '/src'
+    }
+  },
   build: {
     minify: 'terser', // Use Terser for minification
     terserOptions: {
