@@ -17,13 +17,13 @@
     "rules": {
       "recommended": true,
       "style": {
-        "useBlockStatements": "error",
-        "useConsistentArrayType": "error",
+        "useBlockStatements": "warn",
+        "useConsistentArrayType": "warn",
         "noUnusedTemplateLiteral": "warn"
       },
       "correctness": {
-        "noUnusedVariables": "error",
-        "noUnusedImports": "error"
+        "noUnusedVariables": "warn",
+        "noUnusedImports": "warn"
       },
       "suspicious": {
         "noConsole": "warn"

@@ -18,7 +18,7 @@ export const router = createBrowserRouter([
 				element: <MainPage />,
 			},
 			{
-				path: "news/:id",
+				path: "/news/:id",
 				element: <NewsPage />,
 			},
 		],

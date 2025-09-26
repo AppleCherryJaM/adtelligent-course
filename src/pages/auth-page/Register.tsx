@@ -1,13 +1,26 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import {
+	Alert,
+	Box,
+	Button,
+	CircularProgress,
+	Paper,
+	TextField,
+	Typography,
+} from "@mui/material";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { type RegisterFormData, registerSchema } from "../../lib/zodSchema";
+import { authService } from "../../services/user.service";
 import { useAuthStore } from "../../store/authStore";
 
 const RegisterForm = () => {
 	const login = useAuthStore((state) => state.login);
 	const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
+
 	const {
 		register,
 		handleSubmit,
@@ -16,11 +29,24 @@ const RegisterForm = () => {
 		resolver: zodResolver(registerSchema),
 	});
 
-	const onSubmit = (data: RegisterFormData) => {
-		const mockUser = { id: "1", email: data.email };
-		const mockToken = `${data.email}123`;
-		login(mockUser, mockToken);
-		navigate("/");
+	const onSubmit = async (data: RegisterFormData) => {
+		try {
+			setIsLoading(true);
+			setError(null);
+
+			// Реальный API вызов вместо мока
+			const response = await authService.register({
+				email: data.email,
+				password: data.password,
+			});
+
+			login(response.user, response.token);
+			navigate("/");
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Registration failed");
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	return (
@@ -43,6 +69,12 @@ const RegisterForm = () => {
 				<Typography variant="h5" textAlign="center" mb={3}>
 					Register
 				</Typography>
+
+				{error && (
+					<Alert severity="error" sx={{ mb: 2 }}>
+						{error}
+					</Alert>
+				)}
 
 				<form onSubmit={handleSubmit(onSubmit)} noValidate>
 					<TextField
@@ -81,8 +113,9 @@ const RegisterForm = () => {
 						variant="contained"
 						size="large"
 						sx={{ mt: 3 }}
+						disabled={isLoading}
 					>
-						Register
+						{isLoading ? <CircularProgress size={24} /> : "Register"}
 					</Button>
 				</form>
 			</Paper>

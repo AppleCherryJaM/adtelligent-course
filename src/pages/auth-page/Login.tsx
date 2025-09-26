@@ -1,13 +1,27 @@
+// components/Login.tsx
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import {
+	Alert,
+	Box,
+	Button,
+	CircularProgress,
+	Paper,
+	TextField,
+	Typography,
+} from "@mui/material";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { type LoginFormData, loginSchema } from "../../lib/zodSchema";
+import { authService } from "../../services/user.service";
 import { useAuthStore } from "../../store/authStore";
 
 const LoginForm = () => {
 	const login = useAuthStore((state) => state.login);
 	const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
+
 	const {
 		register,
 		handleSubmit,
@@ -16,12 +30,22 @@ const LoginForm = () => {
 		resolver: zodResolver(loginSchema),
 	});
 
-	const onSubmit = (data: LoginFormData) => {
-		const mockUser = { id: "1", email: data.email };
-		const mockToken = `${data.email}123`;
-		login(mockUser, mockToken);
-		navigate("/");
+	const onSubmit = async (data: LoginFormData) => {
+		try {
+			setIsLoading(true);
+			setError(null);
+
+			// ЗАМЕНЯЕМ МОК НА РЕАЛЬНЫЙ API ВЫЗОВ
+			const response = await authService.login(data);
+			login(response.user, response.token);
+			navigate("/");
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Login failed");
+		} finally {
+			setIsLoading(false);
+		}
 	};
+
 	return (
 		<Box
 			display="flex"
@@ -42,6 +66,12 @@ const LoginForm = () => {
 				<Typography variant="h5" textAlign="center" mb={3}>
 					Login
 				</Typography>
+
+				{error && (
+					<Alert severity="error" sx={{ mb: 2 }}>
+						{error}
+					</Alert>
+				)}
 
 				<form onSubmit={handleSubmit(onSubmit)} noValidate>
 					<TextField
@@ -70,8 +100,9 @@ const LoginForm = () => {
 						variant="contained"
 						size="large"
 						sx={{ mt: 3 }}
+						disabled={isLoading}
 					>
-						Login
+						{isLoading ? <CircularProgress size={24} /> : "Login"}
 					</Button>
 				</form>
 			</Paper>

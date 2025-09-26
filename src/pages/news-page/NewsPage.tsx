@@ -1,69 +1,201 @@
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { ArrowBack, OpenInNew } from "@mui/icons-material";
 import {
+	Alert,
 	Box,
 	Button,
 	Card,
 	CardContent,
 	CardMedia,
+	Chip,
+	CircularProgress,
+	Divider,
 	Typography,
 } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import data from "../../mockData/mockData";
+import {
+	type ArticleContent,
+	getArticleContent,
+} from "../../services/news.service";
 
 const NewsPage = () => {
 	const navigate = useNavigate();
 	const { id } = useParams<{ id: string }>();
 
-	const news = data.news.find((n) => String(n.id) === id);
+	const [article, setArticle] = useState<ArticleContent | null>(null);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
 
-	if (!news) {
+	useEffect(() => {
+		const loadArticle = async () => {
+			if (!id) {
+				setError("Article ID is missing");
+				setIsLoading(false);
+				return;
+			}
+
+			try {
+				setIsLoading(true);
+				setError(null);
+
+				const articleUrl = decodeURIComponent(id);
+				const articleData = await getArticleContent(articleUrl);
+				setArticle(articleData);
+			} catch (err) {
+				setError(err instanceof Error ? err.message : "Failed to load article");
+			} finally {
+				setIsLoading(false);
+			}
+		};
+
+		loadArticle();
+	}, [id]);
+
+	if (!id) {
 		return (
 			<Box sx={{ p: 4 }}>
-				<Typography variant="h6" color="error">
-					Not found
-				</Typography>
+				<Alert severity="error">Article not specified</Alert>
 				<Button
-					variant="outlined"
-					startIcon={<ArrowBackIcon />}
-					sx={{ mt: 2 }}
 					onClick={() => navigate("/news")}
+					sx={{ mt: 2 }}
+					startIcon={<ArrowBack />}
 				>
-					Back to feed
+					Back to News
 				</Button>
 			</Box>
 		);
 	}
 
+	if (isLoading) {
+		return (
+			<Box
+				display="flex"
+				justifyContent="center"
+				alignItems="center"
+				minHeight="400px"
+			>
+				<CircularProgress />
+				<Typography sx={{ ml: 2 }}>Loading article...</Typography>
+			</Box>
+		);
+	}
+
+	if (error) {
+		return (
+			<Box sx={{ p: 4 }}>
+				<Alert severity="error" sx={{ mb: 2 }}>
+					{error}
+				</Alert>
+				<Button onClick={() => navigate("/news")} startIcon={<ArrowBack />}>
+					Back to News
+				</Button>
+			</Box>
+		);
+	}
+
+	if (!article) {
+		return (
+			<Box sx={{ p: 4 }}>
+				<Alert severity="info">Article not found</Alert>
+				<Button
+					onClick={() => navigate("/news")}
+					sx={{ mt: 2 }}
+					startIcon={<ArrowBack />}
+				>
+					Back to News
+				</Button>
+			</Box>
+		);
+	}
+
+	const articleUrl = decodeURIComponent(id);
+
 	return (
 		<Box sx={{ maxWidth: 800, mx: "auto", p: 4 }}>
 			<Button
-				variant="text"
-				startIcon={<ArrowBackIcon />}
-				sx={{ mb: 2 }}
 				onClick={() => navigate("/news")}
+				startIcon={<ArrowBack />}
+				sx={{ mb: 3 }}
 			>
-				Back
+				Back to News
 			</Button>
 
-			<Card sx={{ borderRadius: 3 }}>
-				<CardMedia
-					component="img"
-					height="300"
-					image={news.image}
-					alt={news.title}
-				/>
-				<CardContent>
-					<Typography variant="h4" gutterBottom>
-						{news.title}
+			<Card sx={{ borderRadius: 3, boxShadow: 3 }}>
+				{article.image && (
+					<CardMedia
+						component="img"
+						height="400"
+						image={article.image}
+						alt={article.title}
+						sx={{ objectFit: "cover" }}
+					/>
+				)}
+
+				<CardContent sx={{ p: 4 }}>
+					<Typography
+						variant="h3"
+						component="h1"
+						gutterBottom
+						fontWeight="bold"
+					>
+						{article.title}
 					</Typography>
 
-					<Typography variant="body2" color="text.secondary" gutterBottom>
-						{news.date}
+					<Box
+						sx={{
+							display: "flex",
+							gap: 2,
+							flexWrap: "wrap",
+							alignItems: "center",
+							mb: 3,
+						}}
+					>
+						{article.author && (
+							<Chip label={`By ${article.author}`} variant="outlined" />
+						)}
+						{article.publishedAt && (
+							<Chip
+								label={new Date(article.publishedAt).toLocaleDateString()}
+								variant="outlined"
+							/>
+						)}
+					</Box>
+
+					<Divider sx={{ my: 3 }} />
+
+					{article.excerpt && (
+						<>
+							<Typography variant="h6" color="text.secondary" paragraph>
+								{article.excerpt}
+							</Typography>
+							<Divider sx={{ my: 3 }} />
+						</>
+					)}
+
+					<Typography
+						variant="body1"
+						sx={{
+							lineHeight: 1.8,
+							fontSize: "1.1rem",
+							whiteSpace: "pre-line",
+						}}
+						paragraph
+					>
+						{article.content}
 					</Typography>
 
-					<Typography variant="body1" sx={{ mt: 2 }}>
-						{news.mainText}
-					</Typography>
+					<Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
+						<Button
+							href={articleUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							endIcon={<OpenInNew />}
+							variant="outlined"
+							size="large"
+						>
+							Read Original Article
+						</Button>
+					</Box>
 				</CardContent>
 			</Card>
 		</Box>
