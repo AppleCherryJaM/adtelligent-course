@@ -1,20 +1,13 @@
-import {
-	Card,
-	CardActionArea,
-	CardContent,
-	CardMedia,
-	Typography,
-} from "@mui/material";
+import { Card, CardActionArea, CardContent, Typography } from "@mui/material";
 
 interface NewsItemProps {
 	title: string;
-	image: string;
 	text: string;
 	date: string;
 	onClick: () => void;
 }
 
-function NewsItem({ title, image, text, date, onClick }: NewsItemProps) {
+function NewsItem({ title, text, date, onClick }: NewsItemProps) {
 	return (
 		<Card
 			sx={{
@@ -40,20 +33,10 @@ function NewsItem({ title, image, text, date, onClick }: NewsItemProps) {
 					alignItems: "stretch",
 				}}
 			>
-				<CardMedia
-					component="img"
-					height="140"
-					image={image || "/default-news-image.jpg"}
-					alt={title}
-					sx={{
-						height: 140,
-						objectFit: "cover",
-					}}
-					onError={(e) => {
-						e.currentTarget.src = "/default-news-image.jpg";
-					}}
-				/>
-				<CardContent sx={{ flex: 1 }}>
+				{/* УБИРАЕМ CardMedia полностью - изображений нет */}
+				<CardContent sx={{ flex: 1, pt: 3 }}>
+					{" "}
+					{/* Добавляем отступ сверху */}
 					<Typography gutterBottom variant="h6" component="div" noWrap>
 						{title}
 					</Typography>

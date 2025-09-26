@@ -1,17 +1,13 @@
-import type { ReactNode } from "react";
+// router/ProtectedRoute.tsx
 import { Navigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 
 type ProtectedRouteProps = {
-	children: ReactNode;
+	children: React.ReactNode;
 };
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-	const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+	const { isAuthenticated } = useAuthStore(); // Убираем проверку token для простоты
 
-	if (!isAuthenticated) {
-		return <Navigate to="/auth" replace />;
-	}
-
-	return <>{children}</>;
+	return isAuthenticated ? <>{children}</> : <Navigate to="/auth" replace />;
 };

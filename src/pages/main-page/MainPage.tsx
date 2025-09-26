@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import NewsList from "../../components/NewsList";
-import { type FeedItem, getFeed } from "../../services/api";
+import { type FeedItem, getFeed } from "../../services/news.service";
 
 const MainPage = () => {
 	const [news, setNews] = useState<FeedItem[]>([]);
@@ -19,6 +19,7 @@ const MainPage = () => {
 		const loadNews = async () => {
 			try {
 				const newsData = await getFeed();
+
 				setNews(newsData);
 
 				const isFallbackData = newsData.some(
@@ -27,7 +28,9 @@ const MainPage = () => {
 						item.guid.includes("fallback"),
 				);
 				setHasBackendError(isFallbackData);
-			} catch {
+			} catch (error) {
+				// biome-ignore lint/suspicious/noConsole: This is for debugging a specific issue.
+				console.error(error);
 				setNews([]);
 				setHasBackendError(true);
 			} finally {

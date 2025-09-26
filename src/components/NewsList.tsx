@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
-import type { FeedItem } from "../services/api";
+import type { FeedItem } from "../services/news.service";
 import NewsItem from "./NewsItem";
 
 interface NewsListProps {
@@ -9,11 +9,6 @@ interface NewsListProps {
 
 const NewsList = ({ newsList }: NewsListProps) => {
 	const navigate = useNavigate();
-
-	const getImageFromContent = (content: string): string => {
-		const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
-		return imgMatch ? imgMatch[1] : "/default-news-image.jpg";
-	};
 
 	const getExcerpt = (text: string, maxLength = 100): string => {
 		const cleanText = text.replace(/<[^>]*>/g, "");
@@ -47,7 +42,6 @@ const NewsList = ({ newsList }: NewsListProps) => {
 				<Box key={news.guid || index}>
 					<NewsItem
 						title={news.title}
-						image={getImageFromContent(news.content)}
 						text={getExcerpt(news.contentSnippet || news.content)}
 						date={formatDate(news.isoDate || news.pubDate)}
 						onClick={() => navigate(`/news/${encodeURIComponent(news.link)}`)}

@@ -1,15 +1,16 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import Layout from "../components/Layout";
 import { AuthPage, MainPage, NewsPage } from "../pages";
+import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicRoute } from "./PublicRoute";
 
 export const router = createBrowserRouter([
 	{
 		path: "/",
 		element: (
-			// <ProtectedRoute>
-			<Layout />
-			// {/* </ProtectedRoute> */}
+			<ProtectedRoute>
+				<Layout />
+			</ProtectedRoute>
 		),
 		children: [
 			{

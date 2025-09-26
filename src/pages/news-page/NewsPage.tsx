@@ -13,7 +13,10 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { type ArticleContent, getArticleContent } from "../../services/api";
+import {
+	type ArticleContent,
+	getArticleContent,
+} from "../../services/news.service";
 
 const NewsPage = () => {
 	const navigate = useNavigate();
